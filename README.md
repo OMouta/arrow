@@ -1,11 +1,34 @@
 # Arrow Language
 
+<img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
+
+## Description
+
 Arrow is a fun, experimental interpreted programming language that uses arrows and special syntax elements to make programming visually intuitive and compact. Developed using JavaScript in the Node.js ecosystem, Arrow is intended for programmers who enjoy minimalist and symbolic syntax, allowing for efficient expressions and type-checked assignments. This language is especially suited for developers interested in learning about language design, parsing, and interpreter construction.
 
 ## Purpose
 Arrow aims to create an intuitive programming experience focused on simplicity and a unique syntax that is both visually distinct and easy to read. With features like variable type-checking, flexible function definitions, and arrow-based operators, Arrow provides an alternative way to experiment with programming fundamentals, control structures, and I/O. It’s designed as a sandbox for learning and expanding language development skills in a modular, extensible way.
 
-<img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
+## Feature Table
+
+| Feature                  | Description                                           | Status           |
+|--------------------------|-------------------------------------------------------|------------------|
+| Variable Declaration     | Declares and assigns values to variables.             | ✅ Implemented   |
+| Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
+| Basic Operators          | Supports addition, subtraction, multiplication, and division. | 🔲 Not Implemented   |
+| Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
+| Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
+| Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
+| If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
+| While Loop               | Executes code while a condition is true.              | 🔲 Not Implemented |
+| For Loop                 | Executes code a fixed number of times.                | 🔲 Not Implemented |
+| Array Declaration        | Declares arrays for storing ordered data.             | 🔲 Not Implemented |
+| Array Access             | Accesses elements within an array by index.           | 🔲 Not Implemented |
+| Object Declaration       | Declares objects with key-value pairs.                | 🔲 Not Implemented |
+| Object Property Access   | Accesses properties of an object by key.              | 🔲 Not Implemented |
+| Built-In Functions       | Includes print for output and input for user input.   | 🔲 Not Implemented   |
+| Comments                 | Allows single-line comments for documentation.        | 🔲 Not Implemented   |
+
 
 # Syntax Reference
 

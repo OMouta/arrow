@@ -167,11 +167,20 @@ Arrow Language Syntax Reference
   print >> ("Total Sum: " <+> sum)
 */
 
-// Temporary code for testing
-const code = `
-    message <== "Hello World"
-`;
+import fs from 'fs';
+import path from 'path';
 
+// Read the Arrow code from a file in the arguments
+const filePath = path.resolve(process.argv[2]);
+
+if (!fs.existsSync(filePath)) {
+    console.error('File not found');
+    process.exit(1);
+}
+
+const code = fs.readFileSync(filePath, 'utf-8');
+
+// Import the necessary classes from the include folder
 import Tokenizer from './include/tokenizer.js';
 import Parser from './include/parser.js';
 import Interpreter from './include/interpreter.js';
@@ -195,4 +204,4 @@ interpreter.evaluate(ast);
 // Output the result of interpretation
 // The expected output is an object with the variables and their values after interpretation
 // { count: 10, message: 'Hello Arrow' }
-console.log(interpreter.environment); 
+console.log(interpreter.environment);

@@ -4,7 +4,8 @@
   "main": "src/arrow.js",
   "type": "module",
   "scripts": {
-    "test": "node src/arrow.js"
+    "test": "node src/arrow.js test/main.arrow",
+    "interpret": "node src/arrow.js"
   },
   "author": "",
   "license": "ISC",
