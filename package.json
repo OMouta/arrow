@@ -1,9 +1,10 @@
 {
   "name": "arrow",
   "version": "0.0.1",
-  "main": "index.js",
+  "main": "src/arrow.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node src/arrow.js"
   },
   "author": "",
   "license": "ISC",

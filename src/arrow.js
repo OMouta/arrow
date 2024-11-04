@@ -1,157 +1,194 @@
 /*
-Language Specifications
+Arrow Language Syntax Reference
 
-1. File Extension
+-----------------------------
+| 1. Variable Declaration and Assignment
+-----------------------------
+  - Basic Assignment:
+      variableName <== value
+      
+  - Type-Checked Assignment:
+      variableName <: type :> <== value
+      (Throws an error if `value` doesn’t match `type`)
 
-File Extension: .arrw
+  Examples:
+    count <== 42
+    message <: string :> <== "Hello Arrow"
 
-This extension is short and memorable, and it captures the essence of the language name.
+-----------------------------
+| 2. Function Definition and Invocation
+-----------------------------
+  - Function Definition:
+      ==> functionName(arg1 <: type1 :>, arg2 <: type2 :>) <: returnType :> {
+          // function body
+          --> returnValue
+      }
+      
+    - `==>`: Denotes the start of a function definition.
+    - `<: returnType :>`: Optional type annotation for the return value.
+    - `-->`: Return keyword, followed by value.
 
-2. Comment Syntax
+  - Function Invocation:
+      functionName >> (arg1, arg2, ...)
+      
+  Examples:
+    ==> greetUser(name <: string :>) <: string :> {
+        --> "Hello, " <+> name
+    }
 
-Single-line comments: //→ or simply //
+    message <== greetUser >> ("ArrowUser")
 
-Example:
-//→ This is a single-line comment
+-----------------------------
+| 3. Operators and Expressions
+-----------------------------
+  - Arithmetic Operators:
+      Addition: x <+> y
+      Subtraction: x <-> y
+      Multiplication: x <*> y
+      Division: x </> y
+      
+  - Logical Operators:
+      And: x <&&> y
+      Or: x <||> y
+      Not: <!!> x
+      
+  Examples:
+    result <== x <+> y
+    isActive <== flag <&&> condition
 
-Multi-line comments: Start with ⟦ and end with ⟧
+-----------------------------
+| 4. Control Flow Statements
+-----------------------------
+  - If-Else Conditionals:
+      ?? -> (condition) {
+          // if block
+      } ?? else {
+          // else block
+      }
 
-Example:
-⟦
-This is a multi-line comment
-describing the function below.
-⟧
+  - While Loop:
+      @@ -> (condition) {
+          // loop body
+      }
 
-3. Data Types
+  - For Loop:
+      @@ for (init ; condition ; increment) {
+          // loop body
+      }
 
-Primitive Types:
+  Examples:
+    ?? -> (score >= 50) {
+        result <== "Pass"
+    } ?? else {
+        result <== "Fail"
+    }
+    
+    i <== 0
+    @@ -> (i < 5) {
+        i <== i <+> 1
+    }
 
-Integer: Represents whole numbers
-Float: For decimal numbers
-Text: A string of characters
-Arrow: Custom data type that holds an operation or function
+-----------------------------
+| 5. Arrays and Objects
+-----------------------------
+  - Array Declaration:
+      arrayName <== [item1, item2, ...]
 
-Composite Types:
+  - Access Array Elements:
+      item <== arrayName[index]
 
-List: A collection of elements, defined with « and »
+  - Object Declaration:
+      objectName <== { key1: value1, key2: value2, ... }
 
-myList <-- «1, 2, 3, 4»
-Mapping: Key-value pairs, using <==>
+  - Access Object Properties:
+      propertyValue <== objectName.key
 
-myMap <-- « "name" <==> "Arrow", "type" <==> "language" »
+  Examples:
+    items <== [10, 20, 30]
+    firstItem <== items[0]
+    
+    settings <== { volume: 75, theme: "dark" }
+    currentTheme <== settings.theme
 
-4. Built-in Functions
-Input/Output Functions:
+-----------------------------
+| 6. Built-In Functions
+-----------------------------
+  - Print (Output to console):
+      print >> (message)
+      
+  - Input (User input):
+      inputValue <== input >> ("Prompt message")
+      
+    - `print`: Outputs the provided message to the console or display.
+    - `input`: Displays a prompt and waits for user input.
 
-output⟨message⟩: Prints a message to the console
-input⟨⟩: Gets and input and assigns it to a variable
+  Examples:
+    print >> ("Hello, Arrow!")
+    userName <== input >> ("Enter your name: ")
 
-output⟨"Hello, Arrow!"⟩
+-----------------------------
+| 7. Comments
+-----------------------------
+  - Single-Line Comment:
+      :: This is a comment
 
-text <-- input⟨⟩
+-----------------------------
+| 8. Full Example Code
+-----------------------------
+  :: Declare variables
+  age <: int :> <== 25
+  name <: string :> <== "ArrowLang"
 
-Math Functions:
+  :: Function definition with return type
+  ==> isValidAge(userAge <: int :>) <: bool :> {
+      ?? -> (userAge >= 18) {
+          --> true
+      } ?? else {
+          --> false
+      }
+  }
 
-add⟨x, y⟩, subtract⟨x, y⟩, multiply⟨x, y⟩, divide⟨x, y⟩
+  :: Function call
+  canVote <== isValidAge >> (age)
 
-result <-- add⟨5, 10⟩
-
-Conversion Functions:
-
-toText⟨value⟩, toFloat⟨value⟩, toInteger⟨value⟩
-
-numText <-- toText⟨100⟩
-
-5. Error Handling
-
-Try-Catch Blocks:
-
-Use !? for error handling with a catch block.
-
-Copiar código
-!? ⟨error <-- risky_function()⟩:
-    ⦃
-    output⟨"Error encountered:", error⟩
-    ⦄
-
-6. Custom Operators
-
-Definition of Custom Operators: Users can define operators using symbolic arrows, for example:
-
-=>=: Custom operator that could be set to execute specific actions.
-
-Example:
-define operator <==> doSomething
-
-7. Standard Library Structure
-
-File Import Syntax: Use arrow-based import paths to pull in external .arrw files:
-
-import⟨"standardLib.arrw"⟩
-
-Example Code in Arrow
-
-Here’s a sample that puts together these elements to demonstrate Arrow’s syntax in action:
-
-⟦
-Define a function to add two numbers
-⟧
---> add⟨a, b⟩ ->: Integer:
-    ⦃
-    result <-- a ⟨->+ b⟩
-    result <-> result
-    ⦄
-
-⟦
-Main program execution
-⟧
-x <-- 10
-y <-- 5
-sum <-- add⟨x, y⟩
-
-output⟨"Sum of x and y is:", sum⟩
-
-!? ⟨error <-- risky_function()⟩:
-    ⦃
-    output⟨"An error occurred:", error⟩
-    ⦄
-
+  :: Using a loop with an array
+  values <== [10, 20, 30]
+  sum <== 0
+  
+  @@ for (i <== 0 ; i < values.length ; i <== i <+> 1) {
+      sum <== sum <+> values[i]
+  }
+  
+  :: Output the sum
+  print >> ("Total Sum: " <+> sum)
 */
 
-function tokenize(code) {
-    const tokens = [];
-    const tokenPatterns = [
-        { type: 'NUMBER', regex: /\b\d+(\.\d+)?\b/ },
-        { type: 'ARROW', regex: /<--|->|\+->|-<-|\*>|<==>|->\+|<</ },
-        { type: 'IDENTIFIER', regex: /\b[a-zA-Z_]\w*\b/ },
-        { type: 'WHITESPACE', regex: /\s+/ },
-        { type: 'SYMBOL', regex: /[\(\)\{\}]/ },
-        { type: 'STRING', regex: /"[^"]*"/ },
-    ];
+// Temporary code for testing
+const code = `
+    message <== "Hello World"
+`;
 
-    let position = 0;
-    while (position < code.length) {
-        let match = null;
-        for (const { type, regex } of tokenPatterns) {
-            regex.lastIndex = position;
-            match = regex.exec(code);
-            if (match && match.index === position) {
-                if (type !== 'WHITESPACE') {
-                    tokens.push({ type, value: match[0] });
-                }
-                position += match[0].length;
-                break;
-            }
-        }
-        if (!match) {
-            console.error(`Unexpected token at position ${position}: ${code[position]}`);
-            throw new Error(`Unexpected token at position ${position}: ${code[position]}`);
-        }
-    }
-    return tokens;
-}
+import Tokenizer from './include/tokenizer.js';
+import Parser from './include/parser.js';
+import Interpreter from './include/interpreter.js';
 
-// Example usage:
-const code = "x <-- 5";
-const tokens = tokenize(code)
+// Step 1: Tokenize
+const tokenizer = new Tokenizer(code);
+const tokens = tokenizer.tokenize();
+
 console.log(tokens);
+
+// Step 2: Parse
+const parser = new Parser(tokens);
+const ast = parser.parse();
+
+console.log(ast);
+
+// Step 3: Evaluate
+const interpreter = new Interpreter();
+interpreter.evaluate(ast);
+
+// Output the result of interpretation
+// The expected output is an object with the variables and their values after interpretation
+// { count: 10, message: 'Hello Arrow' }
+console.log(interpreter.environment); 
