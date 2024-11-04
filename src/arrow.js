@@ -132,6 +132,10 @@ Arrow Language Syntax Reference
   - Single-Line Comment:
       :: This is a comment
 
+  - Multi-Line Comment:
+      ::> This is a comment
+      a comment <::
+
 -----------------------------
 | 8. Full Example Code
 -----------------------------

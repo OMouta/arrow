@@ -1,0 +1,229 @@
+# Arrow Language
+
+Arrow is a fun, experimental interpreted programming language that uses arrows and special syntax elements to make programming visually intuitive and compact. Developed using JavaScript in the Node.js ecosystem, Arrow is intended for programmers who enjoy minimalist and symbolic syntax, allowing for efficient expressions and type-checked assignments. This language is especially suited for developers interested in learning about language design, parsing, and interpreter construction.
+
+## Purpose
+Arrow aims to create an intuitive programming experience focused on simplicity and a unique syntax that is both visually distinct and easy to read. With features like variable type-checking, flexible function definitions, and arrow-based operators, Arrow provides an alternative way to experiment with programming fundamentals, control structures, and I/O. It’s designed as a sandbox for learning and expanding language development skills in a modular, extensible way.
+
+![Arrow Logo](assets/arrow_logo.png)
+
+# Syntax Reference
+
+## 1. Variable Declaration and Assignment
+
+### Basic Assignment:
+```arrow
+variableName <== value
+```
+
+### Type-Checked Assignment:
+```arrow
+variableName <: type :> <== value
+```
+
+(Throws an error if `value` doesn’t match `type`)
+
+Examples:
+```arrow
+count <== 42
+message <: string :> <== "Hello Arrow"
+```
+
+## 2. Function Definition and Invocation
+
+### Function Definition:
+```arrow
+==> functionName(arg1 <: type1 :>, arg2 <: type2 :>) <: returnType :> {
+    // function body
+    --> returnValue
+}
+```
+
+- `==>`: Denotes the start of a function definition.
+- `<: returnType :>`: Optional type annotation for the return value.
+- `-->`: Return keyword, followed by value.
+
+### Function Invocation:
+```arrow
+functionName >> (arg1, arg2, ...)
+```
+
+Examples:
+```arrow
+==> greetUser(name <: string :>) <: string :> {
+    --> "Hello, " <+> name
+}
+
+message <== greetUser >> ("ArrowUser")
+```
+
+## 3. Operators and Expressions
+
+### Arithmetic Operators:
+
+- Addition: `x <+> y`
+- Subtraction: `x <-> y`
+- Multiplication: `x <*> y`
+- Division: `x </> y`
+
+### Logical Operators:
+
+- And: `x <&&> y`
+- Or: `x <||> y`
+- Not: `<!!> x`
+
+Examples:
+```arrow
+result <== x <+> y
+isActive <== flag <&&> condition
+```
+
+## 4. Control Flow Statements
+
+### If-Else Conditionals:
+
+```arrow
+?? -> (condition) {
+    // if block
+} ?? else {
+    // else block
+}
+```
+
+### While Loop:
+
+```arrow
+@@ -> (condition) {
+    // loop body
+}
+```
+
+### For Loop:
+
+```arrow
+@@ for (init ; condition ; increment) {
+    // loop body
+}
+```
+
+Examples:
+
+```arrow
+?? -> (score >= 50) {
+    result <== "Pass"
+} ?? else {
+    result <== "Fail"
+}
+
+i <== 0
+@@ -> (i < 5) {
+    i <== i <+> 1
+}
+```
+
+## 5. Arrays and Objects
+
+### Array Declaration:
+
+```arrow
+arrayName <== [item1, item2, ...]
+```
+
+### Access Array Elements:
+
+```arrow
+item <== arrayName[index]
+```
+
+### Object Declaration:
+
+```arrow
+objectName <== { key1: value1, key2: value2, ... }
+```
+
+### Access Object Properties:
+
+```arrow
+propertyValue <== objectName.key
+```
+
+Examples:
+```arrow
+items <== [10, 20, 30]
+firstItem <== items[0]
+
+settings <== { volume: 75, theme: "dark" }
+currentTheme <== settings.theme
+```
+
+## 6. Built-In Functions
+
+### Print (Output to console):
+
+```arrow
+print >> (message)
+```
+
+### Input (User input):
+
+```arrow
+inputValue <== input >> ("Prompt message")
+```
+
+- `print`: Outputs the provided message to the console or display.
+- `input`: Displays a prompt and waits for user input.
+
+Examples:
+
+```arrow
+print >> ("Hello, Arrow!")
+userName <== input >> ("Enter your name: ")
+```
+
+## 7. Comments
+
+### Single-Line Comment:
+
+```arrow
+:: This is a comment
+```
+
+### Multi-Line Comment:
+
+```arrow
+::> This
+is
+a
+comment <::
+```
+
+## 8. Full Example Code
+
+```arrow
+:: Declare variables
+age <: int :> <== 25
+name <: string :> <== "ArrowLang"
+
+:: Function definition with return type
+==> isValidAge(userAge <: int :>) <: bool :> {
+    ?? -> (userAge >= 18) {
+        --> true
+    } ?? else {
+        --> false
+    }
+}
+
+:: Function call
+canVote <== isValidAge >> (age)
+
+:: Using a loop with an array
+values <== [10, 20, 30]
+sum <== 0
+
+@@ for (i <== 0 ; i < values.length ; i <== i <+> 1) {
+    sum <== sum <+> values[i]
+}
+
+:: Output the sum
+print >> ("Total Sum: " <+> sum)
+```
