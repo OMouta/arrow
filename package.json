@@ -7,7 +7,7 @@
     "test": "node src/arrow.js test/main.arrow",
     "interpret": "node src/arrow.js"
   },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "author": "OMouta",
+  "license": "GPL-3.0",
+  "description": "Arrow-Lang or Arrow is a fun and experimental interpreted programing language with it's interpretor made with JavaScript"
 }
