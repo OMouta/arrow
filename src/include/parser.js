@@ -15,6 +15,10 @@ class Parser {
 
     parseStatement() {
         const token = this.peek();
+        if (token && token.type === "COMMENT") {
+            this.advance(); // Skip comments
+            return null;
+        }
         if (token && token.type === "IDENTIFIER") return this.parseAssignment();
         this.advance();
         return null;

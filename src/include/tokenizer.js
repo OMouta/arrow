@@ -4,7 +4,6 @@ class Tokenizer {
         this.position = 0;
     }
 
-    // Read the next token
     nextToken() {
         this.skipWhitespace();
 
@@ -12,7 +11,11 @@ class Tokenizer {
 
         const char = this.input[this.position];
 
-        // Tokenize based on character patterns
+        if (char === ':' && this.input[this.position + 1] === ':') {
+            if (this.input[this.position + 2] === '>') return this.multiLineComment();
+            return this.singleLineComment();
+        }
+
         if (/[a-zA-Z_]/.test(char)) return this.identifier();
         if (/[0-9]/.test(char)) return this.number();
         if (char === '<' || char === '>') return this.operator();
@@ -26,6 +29,23 @@ class Tokenizer {
 
     skipWhitespace() {
         while (/\s/.test(this.input[this.position])) this.position++;
+    }
+
+    singleLineComment() {
+        this.position += 2; // Skip ::
+        let start = this.position;
+        while (this.position < this.input.length && this.input[this.position] !== '\n') this.position++;
+        return { type: "COMMENT", value: this.input.slice(start, this.position) };
+    }
+
+    multiLineComment() {
+        this.position += 3; // Skip ::>
+        let start = this.position;
+        while (this.position < this.input.length && !(this.input[this.position] === '<' && this.input[this.position + 1] === ':' && this.input[this.position + 2] === ':')) {
+            this.position++;
+        }
+        this.position += 3; // Skip <::
+        return { type: "COMMENT", value: this.input.slice(start, this.position - 3) };
     }
 
     identifier() {

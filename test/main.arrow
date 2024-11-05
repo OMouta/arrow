@@ -1,1 +1,4 @@
-message <== "Hello World"
+::> Arrow-Lang or Arrow is a fun and experimental interpreted
+programing language with it's interpretor made with JavaScript <::
+
+message <== "Hello World" :: assign string to a variable

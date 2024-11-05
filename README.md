@@ -27,7 +27,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Object Declaration       | Declares objects with key-value pairs.                | 🔲 Not Implemented |
 | Object Property Access   | Accesses properties of an object by key.              | 🔲 Not Implemented |
 | Built-In Functions       | Includes print for output and input for user input.   | 🔲 Not Implemented   |
-| Comments                 | Allows single-line comments for documentation.        | 🔲 Not Implemented   |
+| Comments                 | Allows single and multi line comments for documentation.        | ✅ Implemented   |
 
 
 # Syntax Reference
