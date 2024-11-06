@@ -1,6 +1,6 @@
 {
     "tasks": {
         "run": "deno run src/arrow.js",
-        "test": "deno run src/arrow.js test/test.arrow --debug"
+        "test": "deno run --allow-read src/arrow.js test/test.arrow --debug"
     }
 }

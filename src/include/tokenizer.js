@@ -57,7 +57,11 @@ class Tokenizer {
     number() {
         const start = this.position;
         while (/[0-9]/.test(this.input[this.position])) this.position++;
-        return { type: "NUMBER", value: Number(this.input.slice(start, this.position)) };
+        if (this.input[this.position] === '.') {
+            this.position++;
+            while (/[0-9]/.test(this.input[this.position])) this.position++;
+        }
+        return { type: "NUMBER", value: parseFloat(this.input.slice(start, this.position)) };
     }
 
     operator() {
