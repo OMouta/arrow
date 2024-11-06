@@ -4,7 +4,7 @@
 
 ## Description
 
-Arrow is a fun, experimental interpreted programming language that uses arrows and special syntax elements to make programming visually intuitive and compact. Developed using JavaScript in the Node.js ecosystem, Arrow is intended for programmers who enjoy minimalist and symbolic syntax, allowing for efficient expressions and type-checked assignments. This language is especially suited for developers interested in learning about language design, parsing, and interpreter construction.
+Arrow is a fun, experimental interpreted programming language that uses arrows and special syntax elements to make programming visually intuitive and compact. Developed using JavaScript in the `Deno 2` ecosystem, Arrow is intended for programmers who enjoy minimalist and symbolic syntax, allowing for efficient expressions and type-checked assignments. This language is especially suited for developers interested in learning about language design, parsing, and interpreter construction.
 
 ## Purpose
 Arrow aims to create an intuitive programming experience focused on simplicity and a unique syntax that is both visually distinct and easy to read. With features like variable type-checking, flexible function definitions, and arrow-based operators, Arrow provides an alternative way to experiment with programming fundamentals, control structures, and I/O. It’s designed as a sandbox for learning and expanding language development skills in a modular, extensible way.
@@ -29,6 +29,44 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Built-In Functions       | Includes print for output and input for user input.   | 🔲 Not Implemented   |
 | Comments                 | Allows single and multi line comments for documentation.        | ✅ Implemented   |
 
+# Set-up
+
+To get started with the Arrow language, follow these steps:
+
+## 1. Install Deno 2
+
+First, you need to install Deno 2. You can download and install it from the [official Deno website](https://deno.land/).
+
+## 2. Clone the Repository
+
+Clone this repository to your local machine using the following command:
+
+```sh
+git clone https://github.com/OMouta/arrow.git
+cd arrow-lang
+```
+
+## 3. Run the Scripts
+
+You can use the scripts defined in the `deno.jsonc` file to run and test the Arrow language.
+
+### Run the Arrow Interpreter
+
+To run the Arrow interpreter, use the following command:
+
+```sh
+deno task run path/to/your/arrow/code.arrow
+```
+
+### Run the Tests
+
+To run the tests with debug information, use the following command:
+
+```sh
+deno task test
+```
+
+This will execute the Arrow code in the `test/test.arrow` file and output debug information.
 
 # Syntax Reference
 
