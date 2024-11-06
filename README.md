@@ -1,4 +1,5 @@
 # Arrow Language
+[Setup](#setup) | [Syntax Reference](#syntax-reference)
 
 <img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
 
@@ -29,7 +30,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Built-In Functions       | Includes print for output and input for user input.   | 🔲 Not Implemented   |
 | Comments                 | Allows single and multi line comments for documentation.        | ✅ Implemented   |
 
-# Set-up
+# Setup
 
 To get started with the Arrow language, follow these steps:
 
