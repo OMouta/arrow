@@ -4,7 +4,7 @@ class Interpreter {
     }
 
     evaluate(ast) {
-        for (let node of ast) {
+        for (const node of ast) {
             if (node.type === "Assignment") this.evalAssignment(node);
         }
     }
@@ -16,7 +16,24 @@ class Interpreter {
 
     evalExpression(node) {
         if (node.type === "Literal") return this.evalLiteral(node);
+        if (node.type === "BinaryExpression") return this.evalBinaryExpression(node);
         return null;
+    }
+
+    evalBinaryExpression(node) {
+        const left = this.evalExpression(node.left);
+        const right = this.evalExpression(node.right);
+        switch (node.operator) {
+            case '+': return left + right;
+            case '-': return left - right;
+            case '*': return left * right;
+            case '/': return left / right;
+            case '<+>': return left + right;
+            case '<->': return left - right;
+            case '<*>': return left * right;
+            case '</>': return left / right;
+            default: throw new Error(`Unknown operator: ${node.operator}`);
+        }
     }
 
     evalLiteral(node) {

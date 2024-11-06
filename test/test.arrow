@@ -1,0 +1,9 @@
+::> Arrow-Lang or Arrow is a fun and experimental interpreted
+programing language with it's interpretor made with JavaScript <::
+
+message <== "Hello World" :: assign string to a variable
+
+add <== 1 <+> 1 :: basic Addition
+subtract <== 2 <-> 1 :: basic Subtraction
+multi <== 2 <*> 2 :: Multiplication
+sub <== 4 </> 2 :: Subtraction

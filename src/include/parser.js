@@ -32,6 +32,16 @@ class Parser {
     }
 
     parseExpression() {
+        let left = this.parsePrimary();
+        while (this.match("OPERATOR")) {
+            const operator = this.previous();
+            const right = this.parsePrimary();
+            left = { type: "BinaryExpression", operator: operator.value, left, right };
+        }
+        return left;
+    }
+
+    parsePrimary() {
         const token = this.peek();
         if (token.type === "NUMBER") return this.literal("NUMBER");
         if (token.type === "STRING") return this.literal("STRING");
@@ -49,6 +59,19 @@ class Parser {
             throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"}`);
         }
         return token;
+    }
+
+    match(type) {
+        const token = this.peek();
+        if (token && token.type === type) {
+            this.advance();
+            return true;
+        }
+        return false;
+    }
+
+    previous() {
+        return this.tokens[this.position - 1];
     }
 
     peek() {

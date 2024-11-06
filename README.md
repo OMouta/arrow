@@ -16,7 +16,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Variable Declaration     | Declares and assigns values to variables.             | ✅ Implemented   |
 | Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
 | Basic Operators          | Supports addition, subtraction, multiplication, and division. | 🔲 Not Implemented   |
-| Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
+| Logical Operators        | And, Or, Not operators for conditional logic.         | ✅ Implemented |
 | Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |

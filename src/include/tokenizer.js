@@ -33,14 +33,14 @@ class Tokenizer {
 
     singleLineComment() {
         this.position += 2; // Skip ::
-        let start = this.position;
+        const start = this.position;
         while (this.position < this.input.length && this.input[this.position] !== '\n') this.position++;
         return { type: "COMMENT", value: this.input.slice(start, this.position) };
     }
 
     multiLineComment() {
         this.position += 3; // Skip ::>
-        let start = this.position;
+        const start = this.position;
         while (this.position < this.input.length && !(this.input[this.position] === '<' && this.input[this.position + 1] === ':' && this.input[this.position + 2] === ':')) {
             this.position++;
         }
@@ -49,24 +49,29 @@ class Tokenizer {
     }
 
     identifier() {
-        let start = this.position;
+        const start = this.position;
         while (/[a-zA-Z0-9_]/.test(this.input[this.position])) this.position++;
         return { type: "IDENTIFIER", value: this.input.slice(start, this.position) };
     }
 
     number() {
-        let start = this.position;
+        const start = this.position;
         while (/[0-9]/.test(this.input[this.position])) this.position++;
-        return { type: "NUMBER", value: this.input.slice(start, this.position) };
+        return { type: "NUMBER", value: Number(this.input.slice(start, this.position)) };
     }
 
     operator() {
         const operators = ["<==", "<:", ":>", "<+>", "<->", "<*>", "</>"];
-        for (let op of operators) {
+        for (const op of operators) {
             if (this.input.slice(this.position, this.position + op.length) === op) {
                 this.position += op.length;
                 return { type: "OPERATOR", value: op };
             }
+        }
+        // Handle basic operators
+        const basicOperators = ['+', '-', '*', '/'];
+        if (basicOperators.includes(this.input[this.position])) {
+            return { type: "OPERATOR", value: this.input[this.position++] };
         }
         return null;
     }
@@ -77,7 +82,7 @@ class Tokenizer {
 
     string() {
         this.position++; // Skip starting quote
-        let start = this.position;
+        const start = this.position;
         while (this.input[this.position] !== '"' && this.position < this.input.length) this.position++;
         const value = this.input.slice(start, this.position);
         this.position++; // Skip ending quote
