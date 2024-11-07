@@ -19,9 +19,20 @@ class Parser {
             this.advance(); // Skip comments
             return null;
         }
+        if (token && token.type === "KEYWORD") return this.parseDeclaration();
         if (token && token.type === "IDENTIFIER") return this.parseAssignment();
         this.advance();
         return null;
+    }
+
+    parseDeclaration() {
+        const keyword = this.advance(); // <var> or <const>
+        const identifier = this.expect("IDENTIFIER"); // variable name
+        let value = null;
+        if (this.match("OPERATOR") && this.previous().value === "<==") {
+            value = this.parseExpression();
+        }
+        return { type: "Declaration", kind: keyword.value, name: identifier.value, value };
     }
 
     parseAssignment() {
@@ -45,7 +56,13 @@ class Parser {
         const token = this.peek();
         if (token.type === "NUMBER") return this.literal("NUMBER");
         if (token.type === "STRING") return this.literal("STRING");
+        if (token.type === "IDENTIFIER") return this.variable();
         return null;
+    }
+
+    variable() {
+        const token = this.advance();
+        return { type: "Variable", name: token.value };
     }
 
     literal(type) {

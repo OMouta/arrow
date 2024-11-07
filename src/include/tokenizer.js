@@ -11,9 +11,22 @@ class Tokenizer {
 
         const char = this.input[this.position];
 
+        //console.log(`Processing char: ${char} at position: ${this.position}`);
+
         if (char === ':' && this.input[this.position + 1] === ':') {
             if (this.input[this.position + 2] === '>') return this.multiLineComment();
             return this.singleLineComment();
+        }
+
+        if (char === '<') {
+            if (this.input.slice(this.position, this.position + 5) === '<var>') {
+                this.position += 5;
+                return { type: "KEYWORD", value: "var" };
+            }
+            if (this.input.slice(this.position, this.position + 7) === '<const>') {
+                this.position += 7;
+                return { type: "KEYWORD", value: "const" };
+            }
         }
 
         if (/[a-zA-Z_]/.test(char)) return this.identifier();
@@ -50,16 +63,21 @@ class Tokenizer {
 
     identifier() {
         const start = this.position;
-        while (/[a-zA-Z0-9_]/.test(this.input[this.position])) this.position++;
-        return { type: "IDENTIFIER", value: this.input.slice(start, this.position) };
+        while (this.position < this.input.length && /[a-zA-Z0-9_]/.test(this.input[this.position])) {
+            //onsole.log(`Processing identifier char: ${this.input[this.position]} at position: ${this.position}`);
+            this.position++;
+        }
+        const value = this.input.slice(start, this.position);
+        //console.log(`Identifier found: ${value}`);
+        return { type: "IDENTIFIER", value };
     }
 
     number() {
         const start = this.position;
-        while (/[0-9]/.test(this.input[this.position])) this.position++;
-        if (this.input[this.position] === '.') {
+        while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) this.position++;
+        if (this.position < this.input.length && this.input[this.position] === '.') {
             this.position++;
-            while (/[0-9]/.test(this.input[this.position])) this.position++;
+            while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) this.position++;
         }
         return { type: "NUMBER", value: parseFloat(this.input.slice(start, this.position)) };
     }
@@ -87,7 +105,7 @@ class Tokenizer {
     string() {
         this.position++; // Skip starting quote
         const start = this.position;
-        while (this.input[this.position] !== '"' && this.position < this.input.length) this.position++;
+        while (this.position < this.input.length && this.input[this.position] !== '"') this.position++;
         const value = this.input.slice(start, this.position);
         this.position++; // Skip ending quote
         return { type: "STRING", value };
@@ -101,7 +119,10 @@ class Tokenizer {
     tokenize() {
         const tokens = [];
         let token;
-        while ((token = this.nextToken()) !== null) tokens.push(token);
+        while ((token = this.nextToken()) !== null) {
+            //console.log(`Token: ${JSON.stringify(token)}`);
+            tokens.push(token);
+        }
         return tokens;
     }
 }

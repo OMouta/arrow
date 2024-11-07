@@ -1,0 +1,20 @@
+::> Variable Declarations Tests <::
+
+<var> message <== "Hello World" :: assign string to a variable
+<const> float <== 4.24 :: assign float to a variable
+
+::> Basic Operations Tests <::
+
+<var> add <== 1 <+> 1 :: basic Addition
+<var> subtract <== 2 <-> 1 :: basic Subtraction
+<var> multi <== 2 <*> 2 :: Multiplication
+<var> div <== 4 </> 2 :: Division
+
+::> String Operations Tests <::
+
+<var> add_string <== "Hello" <+> " World" :: Addition with string
+<var> add_string_num <== "One" <+> 2 :: This will convert the number to a string
+
+::> Variable Tests <::
+
+<var> myVar1

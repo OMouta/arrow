@@ -5,15 +5,15 @@ Arrow Language Syntax Reference
 | 1. Variable Declaration and Assignment
 -----------------------------
   - Basic Assignment:
-      variableName <== value
+      <var> variableName <== value
       
   - Type-Checked Assignment:
-      variableName <: type :> <== value
+      <var> variableName <: type :> <== value
       (Throws an error if `value` doesn’t match `type`)
 
   Examples:
-    count <== 42
-    message <: string :> <== "Hello Arrow"
+    <var> count <== 42
+    <var> message <: string :> <== "Hello Arrow"
 
 -----------------------------
 | 2. Function Definition and Invocation
@@ -188,6 +188,9 @@ import Parser from './include/parser.js';
 import Interpreter from './include/interpreter.js';
 
 // Step 1: Tokenize
+
+console.log('Arrow code:');
+
 const tokenizer = new Tokenizer(code);
 const tokens = tokenizer.tokenize();
 

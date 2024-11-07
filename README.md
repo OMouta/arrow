@@ -1,6 +1,9 @@
 # Arrow Language
 [Setup](#setup) | [Syntax Reference](#syntax-reference)
 
+> [!IMPORTANT]  
+> Arrow-Lang is not and will never be production ready, this is a study case only!
+
 <img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
 
 ## Description
