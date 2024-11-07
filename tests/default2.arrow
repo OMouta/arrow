@@ -3,4 +3,4 @@
 
 <var> total <== myVar1 <+> myVar2
 
-myVar2 <== 4
+myVar2 <== 4 :: ofc it fails, this is a const
