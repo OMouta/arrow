@@ -70,7 +70,7 @@ To run the tests with debug information, use the following command:
 deno task test
 ```
 
-This will execute the Arrow code in the `test/test.arrow` file and output debug information.
+This will execute the Arrow code in the `test/default.arrow` file and output debug information.
 
 # Syntax Reference
 
@@ -78,20 +78,20 @@ This will execute the Arrow code in the `test/test.arrow` file and output debug 
 
 ### Basic Assignment:
 ```arrow
-variableName <== value
+<var> variableName <== value
 ```
 
 ### Type-Checked Assignment:
 ```arrow
-variableName <: type :> <== value
+<var> variableName <: type :> <== value
 ```
 
 (Throws an error if `value` doesn’t match `type`)
 
 Examples:
 ```arrow
-count <== 42
-message <: string :> <== "Hello Arrow"
+<var> count <== 42
+<var> message <: string :> <== "Hello Arrow"
 ```
 
 ## 2. Function Definition and Invocation
@@ -139,8 +139,8 @@ message <== greetUser >> ("ArrowUser")
 
 Examples:
 ```arrow
-result <== x <+> y
-isActive <== flag <&&> condition
+<var> result <== x <+> y
+<var> isActive <== flag <&&> condition
 ```
 
 ## 4. Control Flow Statements
@@ -191,34 +191,34 @@ i <== 0
 ### Array Declaration:
 
 ```arrow
-arrayName <== [item1, item2, ...]
+<var> arrayName <== [item1, item2, ...]
 ```
 
 ### Access Array Elements:
 
 ```arrow
-item <== arrayName[index]
+<var> item <== arrayName[index]
 ```
 
 ### Object Declaration:
 
 ```arrow
-objectName <== { key1: value1, key2: value2, ... }
+<var> objectName <== { key1: value1, key2: value2, ... }
 ```
 
 ### Access Object Properties:
 
 ```arrow
-propertyValue <== objectName.key
+<var> propertyValue <== objectName.key
 ```
 
 Examples:
 ```arrow
-items <== [10, 20, 30]
-firstItem <== items[0]
+<var> items <== [10, 20, 30]
+<var> firstItem <== items[0]
 
-settings <== { volume: 75, theme: "dark" }
-currentTheme <== settings.theme
+<var> settings <== { volume: 75, theme: "dark" }
+<var> currentTheme <== settings.theme
 ```
 
 ## 6. Built-In Functions
@@ -232,7 +232,7 @@ print >> (message)
 ### Input (User input):
 
 ```arrow
-inputValue <== input >> ("Prompt message")
+<var> inputValue <== input >> ("Prompt message")
 ```
 
 - `print`: Outputs the provided message to the console or display.
@@ -242,7 +242,7 @@ Examples:
 
 ```arrow
 print >> ("Hello, Arrow!")
-userName <== input >> ("Enter your name: ")
+<var> userName <== input >> ("Enter your name: ")
 ```
 
 ## 7. Comments
@@ -266,8 +266,8 @@ comment <::
 
 ```arrow
 :: Declare variables
-age <: int :> <== 25
-name <: string :> <== "ArrowLang"
+<const> age <: int :> <== 25
+<const> name <: string :> <== "ArrowLang"
 
 :: Function definition with return type
 ==> isValidAge(userAge <: int :>) <: bool :> {
@@ -279,11 +279,11 @@ name <: string :> <== "ArrowLang"
 }
 
 :: Function call
-canVote <== isValidAge >> (age)
+<const> canVote <== isValidAge >> (age)
 
 :: Using a loop with an array
-values <== [10, 20, 30]
-sum <== 0
+<const> values <== [10, 20, 30]
+<var> sum <== 0
 
 @@ for (i <== 0 ; i < values.length ; i <== i <+> 1) {
     sum <== sum <+> values[i]
