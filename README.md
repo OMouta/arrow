@@ -1,7 +1,7 @@
 # Arrow Language
 [Setup](#setup) | [Syntax Reference](#syntax-reference)
 
-> [!IMPORTANT]  
+> [!WARNING]  
 > Arrow-Lang is not and will never be production ready, this is a study case only!
 
 <img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
@@ -12,6 +12,9 @@ Arrow is a fun, experimental interpreted programming language that uses arrows a
 
 ## Purpose
 Arrow aims to create an intuitive programming experience focused on simplicity and a unique syntax that is both visually distinct and easy to read. With features like variable type-checking, flexible function definitions, and arrow-based operators, Arrow provides an alternative way to experiment with programming fundamentals, control structures, and I/O. It’s designed as a sandbox for learning and expanding language development skills in a modular, extensible way.
+
+> [!NOTE]  
+> Most features here will eventualy be added, features are listed by order, list can change over time.
 
 ## Feature Table
 
@@ -59,7 +62,7 @@ You can use the scripts defined in the `deno.jsonc` file to run and test the Arr
 To run the Arrow interpreter, use the following command:
 
 ```sh
-deno task run path/to/your/arrow/code.arrow
+deno task arrow path/to/your/arrow/code.arrow
 ```
 
 ### Run the Tests
