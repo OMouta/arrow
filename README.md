@@ -14,7 +14,7 @@ Arrow is a fun, experimental interpreted programming language that uses arrows a
 Arrow aims to create an intuitive programming experience focused on simplicity and a unique syntax that is both visually distinct and easy to read. With features like variable type-checking, flexible function definitions, and arrow-based operators, Arrow provides an alternative way to experiment with programming fundamentals, control structures, and I/O. It’s designed as a sandbox for learning and expanding language development skills in a modular, extensible way.
 
 > [!NOTE]  
-> Most features here will eventualy be added, features are listed by order, list can change over time.
+> Most features here will eventualy be added, features are not listed by order, list can change over time.
 
 ## Feature Table
 

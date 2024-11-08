@@ -182,19 +182,19 @@ if (!fs.existsSync(filePath)) {
 
 const code = fs.readFileSync(filePath, 'utf-8');
 
+const startTime = Date.now();
+
 // Import the necessary classes from the include folder
 import Tokenizer from './include/tokenizer.js';
 import Parser from './include/parser.js';
 import Interpreter from './include/interpreter.js';
 
 // Step 1: Tokenize
-
-console.log('Arrow code:');
-
 const tokenizer = new Tokenizer(code);
 const tokens = tokenizer.tokenize();
 
 if (debug) {
+    console.log('Tokens:');
     console.log(tokens);
 }
 
@@ -203,6 +203,7 @@ const parser = new Parser(tokens);
 const ast = parser.parse();
 
 if (debug) {
+    console.log('Abstract Syntax Tree (AST):');
     console.log(ast);
 }
 
@@ -210,9 +211,12 @@ if (debug) {
 const interpreter = new Interpreter();
 interpreter.evaluate(ast);
 
+const endTime = Date.now();
+
 // Output the result of interpretation
 if (debug) {
+    console.log('Environment:');
     console.log(interpreter.environment);
-} else {
-    console.log('Arrow code executed successfully!');
 }
+
+console.log('Program exited successfully in ' + (endTime - startTime) + 'ms');
