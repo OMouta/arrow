@@ -37,7 +37,7 @@ class Parser {
 
     parseAssignment() {
         const identifier = this.advance(); // var name
-        const operator = this.expect("OPERATOR", "<=="); // assignment operator
+        this.expect("OPERATOR", "<=="); // assignment operator
         const value = this.parseExpression();
         return { type: "Assignment", name: identifier.value, value, line: identifier.line, column: identifier.column };
     }
