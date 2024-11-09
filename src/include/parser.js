@@ -32,27 +32,27 @@ class Parser {
         if (this.match("OPERATOR") && this.previous().value === "<==") {
             value = this.parseExpression();
         }
-        return { type: "Declaration", kind: keyword.value, name: identifier.value, value };
+        return { type: "Declaration", kind: keyword.value, name: identifier.value, value, line: keyword.line, column: keyword.column };
     }
 
     parseAssignment() {
         const identifier = this.advance(); // var name
-        this.expect("OPERATOR", "<=="); // assignment operator
+        const operator = this.expect("OPERATOR", "<=="); // assignment operator
         const value = this.parseExpression();
-        return { type: "Assignment", name: identifier.value, value };
+        return { type: "Assignment", name: identifier.value, value, line: identifier.line, column: identifier.column };
     }
 
     parseExpression() {
         if (this.match("OPERATOR") && this.previous().value === "<!!>") {
             const operator = this.previous();
             const right = this.parsePrimary();
-            return { type: "UnaryExpression", operator: operator.value, right };
+            return { type: "UnaryExpression", operator: operator.value, right, line: operator.line, column: operator.column };
         }
         let left = this.parsePrimary();
         while (this.match("OPERATOR")) {
             const operator = this.previous();
             const right = this.parsePrimary();
-            left = { type: "BinaryExpression", operator: operator.value, left, right };
+            left = { type: "BinaryExpression", operator: operator.value, left, right, line: operator.line, column: operator.column };
         }
         return left;
     }
@@ -67,12 +67,12 @@ class Parser {
 
     variable() {
         const token = this.advance();
-        return { type: "Variable", name: token.value };
+        return { type: "Variable", name: token.value, line: token.line, column: token.column };
     }
 
     literal(type) {
         const token = this.expect(type);
-        return { type: "Literal", value: token.value };
+        return { type: "Literal", value: token.value, line: token.line, column: token.column };
     }
 
     expect(type, value = null) {

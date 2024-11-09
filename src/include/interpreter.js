@@ -12,7 +12,7 @@ class Interpreter {
 
     evalDeclaration(node) {
         const value = node.value ? this.evalExpression(node.value) : null;
-        this.environment[node.name] = { value, kind: node.kind };
+        this.environment[node.name] = { value, kind: node.kind, line: node.line, column: node.column };
     }
 
     evalAssignment(node) {
@@ -20,7 +20,7 @@ class Interpreter {
         if (this.environment[node.name] && this.environment[node.name].kind === "const") {
             throw new Error(`Cannot reassign constant variable: ${node.name} at line ${node.line}, column ${node.column}`);
         }
-        this.environment[node.name] = { value, kind: "var" };
+        this.environment[node.name] = { value, kind: "var", line: node.line, column: node.column };
     }
 
     evalExpression(node) {
@@ -35,7 +35,7 @@ class Interpreter {
         const right = this.evalExpression(node.right);
         switch (node.operator) {
             case '<!!>': return !right;
-            default: throw new Error(`Unknown operator: ${node.operator}`);
+            default: throw new Error(`Unknown operator: ${node.operator} at line ${node.line}, column ${node.column}`);
         }
     }
 
@@ -71,7 +71,7 @@ class Interpreter {
             case '<<>': return left < right;
             case '<>=>': return left >= right;
             case '<<=>': return left <= right;
-            default: throw new Error(`Unknown operator: ${node.operator}`);
+            default: throw new Error(`Unknown operator: ${node.operator} at line ${node.line}, column ${node.column}`);
         }
     }
 }

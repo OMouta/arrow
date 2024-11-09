@@ -13,8 +13,6 @@ class Tokenizer {
 
         const char = this.input[this.position];
 
-        //console.log(`Processing char: ${char} at position: ${this.position}`);
-
         if (char === ':' && this.input[this.position + 1] === ':') {
             if (this.input[this.position + 2] === '>') return this.multiLineComment();
             return this.singleLineComment();
@@ -23,11 +21,11 @@ class Tokenizer {
         if (char === '<') {
             if (this.input.slice(this.position, this.position + 5) === '<var>') {
                 this.position += 5;
-                return { type: "KEYWORD", value: "var" };
+                return { type: "KEYWORD", value: "var", line: this.line, column: this.column };
             }
             if (this.input.slice(this.position, this.position + 7) === '<const>') {
                 this.position += 7;
-                return { type: "KEYWORD", value: "const" };
+                return { type: "KEYWORD", value: "const", line: this.line, column: this.column };
             }
         }
 
@@ -59,7 +57,7 @@ class Tokenizer {
         this.position += 2; // Skip ::
         const start = this.position;
         while (this.position < this.input.length && this.input[this.position] !== '\n') this.position++;
-        return { type: "COMMENT", value: this.input.slice(start, this.position) };
+        return { type: "COMMENT", value: this.input.slice(start, this.position), line: this.line, column: this.column };
     }
 
     multiLineComment() {
@@ -69,77 +67,95 @@ class Tokenizer {
             this.position++;
         }
         this.position += 3; // Skip <::
-        return { type: "COMMENT", value: this.input.slice(start, this.position - 3) };
+        return { type: "COMMENT", value: this.input.slice(start, this.position - 3), line: this.line, column: this.column };
     }
 
     identifier() {
         const start = this.position;
+        const startLine = this.line;
+        const startColumn = this.column;
         while (this.position < this.input.length && /[a-zA-Z0-9_]/.test(this.input[this.position])) {
-            //onsole.log(`Processing identifier char: ${this.input[this.position]} at position: ${this.position}`);
             this.position++;
+            this.column++;
         }
         const value = this.input.slice(start, this.position);
-        //console.log(`Identifier found: ${value}`);
-        return { type: "IDENTIFIER", value };
+        return { type: "IDENTIFIER", value, line: startLine, column: startColumn };
     }
 
     number() {
         const start = this.position;
-        while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) this.position++;
+        const startLine = this.line;
+        const startColumn = this.column;
+        while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) {
+            this.position++;
+            this.column++;
+        }
         if (this.position < this.input.length && this.input[this.position] === '.') {
             this.position++;
-            while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) this.position++;
+            this.column++;
+            while (this.position < this.input.length && /[0-9]/.test(this.input[this.position])) {
+                this.position++;
+                this.column++;
+            }
         }
-        return { type: "NUMBER", value: parseFloat(this.input.slice(start, this.position)) };
+        return { type: "NUMBER", value: parseFloat(this.input.slice(start, this.position)), line: startLine, column: startColumn };
     }
 
     operator() {
         const operators = ["<==", "<:", ":>", "<+>", "<->", "<*>", "</>", "<&&>", "<||>", "<!!>", "<=>", "<!=>", "<>>", "<<>", "<>=>", "<<=>"];
         for (const op of operators) {
             if (this.input.slice(this.position, this.position + op.length) === op) {
+                const startLine = this.line;
+                const startColumn = this.column;
                 this.position += op.length;
-                return { type: "OPERATOR", value: op };
+                this.column += op.length;
+                return { type: "OPERATOR", value: op, line: startLine, column: startColumn };
             }
         }
         // Handle basic operators
         const basicOperators = ['+', '-', '*', '/'];
         if (basicOperators.includes(this.input[this.position])) {
-            return { type: "OPERATOR", value: this.input[this.position++] };
+            const startLine = this.line;
+            const startColumn = this.column;
+            return { type: "OPERATOR", value: this.input[this.position++], line: startLine, column: startColumn };
         }
         return null;
     }
 
     punctuation() {
-        return { type: "PUNCTUATION", value: this.input[this.position++] };
+        const startLine = this.line;
+        const startColumn = this.column;
+        return { type: "PUNCTUATION", value: this.input[this.position++], line: startLine, column: startColumn };
     }
 
     string() {
+        const startLine = this.line;
+        const startColumn = this.column;
         this.position++; // Skip starting quote
+        this.column++;
         const start = this.position;
-        while (this.position < this.input.length && this.input[this.position] !== '"') this.position++;
+        while (this.position < this.input.length && this.input[this.position] !== '"') {
+            this.position++;
+            this.column++;
+        }
         const value = this.input.slice(start, this.position);
         this.position++; // Skip ending quote
-        return { type: "STRING", value };
+        this.column++;
+        return { type: "STRING", value, line: startLine, column: startColumn };
     }
 
     colon() {
+        const startLine = this.line;
+        const startColumn = this.column;
         this.position++;
-        return { type: "COLON", value: ":" };
-    }
-
-    expect(type, value = null) {
-        const token = this.advance();
-        if (!token || token.type !== type || (value && token.value !== value)) {
-            throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"} at line ${this.line}, column ${this.column}`);
-        }
-        return token;
+        this.column++;
+        return { type: "COLON", value: ":", line: startLine, column: startColumn };
     }
 
     tokenize() {
         const tokens = [];
         let token;
         while ((token = this.nextToken()) !== null) {
-            //console.log(`Token: ${JSON.stringify(token)}`);
             tokens.push(token);
         }
         return tokens;
