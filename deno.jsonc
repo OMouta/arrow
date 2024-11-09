@@ -2,6 +2,6 @@
     "tasks": {
         "arrow": "deno run --allow-read --allow-write src/arrow.js",
         "test": "deno task arrow tests/default.arrow --debug",
-        "test2": "deno task arrow tests/default2.arrow --debug"
+        "test-fail": "deno task arrow tests/fail.arrow --debug"
     }
 }

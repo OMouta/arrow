@@ -2,7 +2,7 @@
 [Setup](#setup) | [Syntax Reference](#syntax-reference)
 
 > [!WARNING]  
-> Arrow-Lang is not and will never be production ready, this is a study case only!
+> Arrow-Lang is not and will never be production ready, this is a case-study only!
 
 <img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
 
@@ -20,11 +20,11 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 
 | Feature                  | Description                                           | Status           |
 |--------------------------|-------------------------------------------------------|------------------|
-| Variable Declaration     | Declares and assigns values to variables.             | ✅ Implemented - Needs Improvements   |
+| Variable Declaration     | Declares and assigns values to variables.             | ✅ Implemented   |
 | Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
-| Basic Operators          | Supports addition, subtraction, multiplication, and division. | ✅ Implemented  - Needs Improvements   |
-| Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
-| Comparation Operators        | Equals, is bigger then, is smaller then for comparation logic.         | 🔲 Not Implemented |
+| Basic Operators          | Supports addition, subtraction, multiplication, and division. | ✅ Implemented   |
+| Logical Operators        | And, Or, Not operators for conditional logic.         | ✅ Implemented - Needs Improvements |
+| Comparation Operators        | Equals, is bigger then, is smaller then for comparation logic.         | ✅ Implemented - Needs Improvements |
 | Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
@@ -43,7 +43,7 @@ To get started with the Arrow language, follow these steps:
 
 ## 1. Install Deno 2
 
-First, you need to install Deno 2. You can download and install it from the [official Deno website](https://deno.land/).
+First, you need to install Deno 2. You can download and install it from the [official Deno website](https://deno.com/).
 
 ## 2. Clone the Repository
 
@@ -63,7 +63,7 @@ You can use the scripts defined in the `deno.jsonc` file to run and test the Arr
 To run the Arrow interpreter, use the following command:
 
 ```sh
-deno task arrow path/to/your/arrow/code.arrow
+deno task arrow path/to/your/code.arrow
 ```
 
 ### Run the Tests
