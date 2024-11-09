@@ -43,6 +43,11 @@ class Parser {
     }
 
     parseExpression() {
+        if (this.match("OPERATOR") && this.previous().value === "<!!>") {
+            const operator = this.previous();
+            const right = this.parsePrimary();
+            return { type: "UnaryExpression", operator: operator.value, right };
+        }
         let left = this.parsePrimary();
         while (this.match("OPERATOR")) {
             const operator = this.previous();
@@ -73,7 +78,7 @@ class Parser {
     expect(type, value = null) {
         const token = this.advance();
         if (!token || token.type !== type || (value && token.value !== value)) {
-            throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"}`);
+            throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"} at line ${token.line}, column ${token.column}`);
         }
         return token;
     }

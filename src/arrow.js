@@ -189,34 +189,53 @@ import Tokenizer from './include/tokenizer.js';
 import Parser from './include/parser.js';
 import Interpreter from './include/interpreter.js';
 
-// Step 1: Tokenize
-const tokenizer = new Tokenizer(code);
-const tokens = tokenizer.tokenize();
+try {
+    // Step 1: Tokenize
+    const tokenizer = new Tokenizer(code);
+    const tokens = tokenizer.tokenize();
 
-if (debug) {
-    console.log('Tokens:');
-    console.log(tokens);
+    if (debug) {
+        console.log('Tokens:');
+        console.log(tokens);
+    }
+
+    // Step 2: Parse
+    const parser = new Parser(tokens);
+    const ast = parser.parse();
+
+    if (debug) {
+        console.log('Abstract Syntax Tree (AST):');
+        console.log(ast);
+    }
+
+    // Step 3: Evaluate
+    const interpreter = new Interpreter();
+    interpreter.evaluate(ast);
+
+    const endTime = Date.now();
+
+    // Output the result of interpretation
+    if (debug) {
+        console.log('Environment:');
+        console.log(interpreter.environment);
+    }
+
+    console.log('Program exited successfully in ' + (endTime - startTime) + 'ms');
+} catch (error) {
+    console.error('Error:', error.message);
+    console.error('Suggested fix:', getSuggestedFix(error.message));
+    process.exit(1);
 }
 
-// Step 2: Parse
-const parser = new Parser(tokens);
-const ast = parser.parse();
-
-if (debug) {
-    console.log('Abstract Syntax Tree (AST):');
-    console.log(ast);
+function getSuggestedFix(errorMessage) {
+    if (errorMessage.includes('Expected')) {
+        return 'Check the syntax near the indicated line and column.';
+    }
+    if (errorMessage.includes('Undefined variable')) {
+        return 'Ensure the variable is declared before use.';
+    }
+    if (errorMessage.includes('Cannot reassign constant variable')) {
+        return 'Avoid reassigning a constant variable.';
+    }
+    return 'Refer to the documentation for more details.';
 }
-
-// Step 3: Evaluate
-const interpreter = new Interpreter();
-interpreter.evaluate(ast);
-
-const endTime = Date.now();
-
-// Output the result of interpretation
-if (debug) {
-    console.log('Environment:');
-    console.log(interpreter.environment);
-}
-
-console.log('Program exited successfully in ' + (endTime - startTime) + 'ms');

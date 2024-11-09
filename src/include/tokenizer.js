@@ -2,6 +2,8 @@ class Tokenizer {
     constructor(input) {
         this.input = input;
         this.position = 0;
+        this.line = 1;
+        this.column = 1;
     }
 
     nextToken() {
@@ -37,11 +39,20 @@ class Tokenizer {
         if (char === ':') return this.colon();
 
         this.position++;
-        return { type: "UNKNOWN", value: char };
+        this.column++;
+        return { type: "UNKNOWN", value: char, line: this.line, column: this.column };
     }
 
     skipWhitespace() {
-        while (/\s/.test(this.input[this.position])) this.position++;
+        while (/\s/.test(this.input[this.position])) {
+            if (this.input[this.position] === '\n') {
+                this.line++;
+                this.column = 1;
+            } else {
+                this.column++;
+            }
+            this.position++;
+        }
     }
 
     singleLineComment() {
@@ -83,7 +94,7 @@ class Tokenizer {
     }
 
     operator() {
-        const operators = ["<==", "<:", ":>", "<+>", "<->", "<*>", "</>"];
+        const operators = ["<==", "<:", ":>", "<+>", "<->", "<*>", "</>", "<&&>", "<||>", "<!!>", "<=>", "<!=>", "<>>", "<<>", "<>=>", "<<=>"];
         for (const op of operators) {
             if (this.input.slice(this.position, this.position + op.length) === op) {
                 this.position += op.length;
@@ -114,6 +125,14 @@ class Tokenizer {
     colon() {
         this.position++;
         return { type: "COLON", value: ":" };
+    }
+
+    expect(type, value = null) {
+        const token = this.advance();
+        if (!token || token.type !== type || (value && token.value !== value)) {
+            throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"} at line ${this.line}, column ${this.column}`);
+        }
+        return token;
     }
 
     tokenize() {

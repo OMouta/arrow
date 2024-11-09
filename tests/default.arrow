@@ -1,20 +1,31 @@
 ::> Variable Declarations Tests <::
 
-<var> message <== "Hello World" :: assign string to a variable
-<const> float <== 4.24 :: assign float to a variable
+<var> x <== 4
+<const> y <== 25
 
 ::> Basic Operations Tests <::
 
-<var> add <== 1 <+> 1 :: basic Addition
-<var> subtract <== 2 <-> 1 :: basic Subtraction
-<var> multi <== 2 <*> 2 :: Multiplication
-<var> div <== 4 </> 2 :: Division
+<var> add <== x <+> y :: basic Addition
+<var> subtract <== x <-> y :: basic Subtraction
+<var> multi <== x <*> y :: Multiplication
+<var> div <== x </> y :: Division
+
+::> Comparation Operators Tests <::
+
+<var> isEqual <== x <=> y
+<var> isNotEqual <== x <!=> y
+<var> isGreater <== x <>> y
+<var> isLesser <== x <<> y
+<var> isGreaterOrEqual <== x <>=> y
+<var> isLesserOrEqual <== x <<=> y
+
+::> Logical Operators Tests <::
+
+<var> logical1 <== isEqual <&&> isNotEqual
+<var> logical2 <== isEqual <||> isNotEqual
+<var> logical3 <== <!!> isEqual
 
 ::> String Operations Tests <::
 
 <var> add_string <== "Hello" <+> " World" :: Addition with string
 <var> add_string_num <== "One" <+> 2 :: This will convert the number to a string
-
-::> Variable Tests <::
-
-<var> myVar1

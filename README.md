@@ -24,6 +24,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
 | Basic Operators          | Supports addition, subtraction, multiplication, and division. | ✅ Implemented  - Needs Improvements   |
 | Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
+| Comparation Operators        | Equals, is bigger then, is smaller then for comparation logic.         | 🔲 Not Implemented |
 | Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
@@ -140,10 +141,25 @@ message <== greetUser >> ("ArrowUser")
 - Or: `x <||> y`
 - Not: `<!!> x`
 
+### Comparison Operators:
+
+- Equal to: `x <=> y`
+- Not equal to: `x <!=> y`
+- Greater than: `x <>> y`
+- Less than: `x <<> y`
+- Greater than or equal to: `x <>>= y`
+- Less than or equal to: `x <<>= y`
+
 Examples:
 ```arrow
 <var> result <== x <+> y
 <var> isActive <== flag <&&> condition
+<var> isEqual <== x <=> y
+<var> isNotEqual <== x <!=> y
+<var> isGreater <== x <>> y
+<var> isLesser <== x <<> y
+<var> isGreaterOrEqual <== x <>=> y
+<var> isLesserOrEqual <== x <<=> y
 ```
 
 ## 4. Control Flow Statements
