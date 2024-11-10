@@ -24,7 +24,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
 | Basic Operators          | Supports addition, subtraction, multiplication, and division. | ✅ Implemented   |
 | Logical Operators        | And, Or, Not operators for conditional logic.         | ✅ Implemented - Needs Improvements |
-| Comparation Operators        | Equals, is bigger then, is smaller then for comparation logic.         | ✅ Implemented - Needs Improvements |
+| Comparation Operators    | Equals, is bigger then, is smaller then for comparation logic. | ✅ Implemented - Needs Improvements |
 | Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
@@ -35,7 +35,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Object Declaration       | Declares objects with key-value pairs.                | 🔲 Not Implemented |
 | Object Property Access   | Accesses properties of an object by key.              | 🔲 Not Implemented |
 | Built-In Functions       | Includes print for output and input for user input.   | 🔲 Not Implemented   |
-| Comments                 | Allows single and multi line comments for documentation.        | ✅ Implemented   |
+| Comments                 | Allows single and multi line comments for documentation. | ✅ Implemented   |
 
 # Setup
 
@@ -102,7 +102,7 @@ Examples:
 
 ### Function Definition:
 ```arrow
-==> functionName(arg1 <: type1 :>, arg2 <: type2 :>) <: returnType :> {
+==> functionName(<const> arg1 <: type1 :>, <var> arg2 <: type2 :>) <: returnType :> {
     // function body
     --> returnValue
 }
@@ -119,7 +119,7 @@ functionName >> (arg1, arg2, ...)
 
 Examples:
 ```arrow
-==> greetUser(name <: string :>) <: string :> {
+==> greetUser(<var> name <: string :>) <: string :> {
     --> "Hello, " <+> name
 }
 
