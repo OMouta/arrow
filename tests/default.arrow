@@ -1,31 +1,3 @@
 ::> Variable Declarations Tests <::
 
-<var> x <== 4
-<const> y <== 25
-
-::> Basic Operations Tests <::
-
-<var> add <== x <+> y :: basic Addition
-<var> subtract <== x <-> y :: basic Subtraction
-<var> multi <== x <*> y :: Multiplication
-<var> div <== x </> y :: Division
-
-::> Comparation Operators Tests <::
-
-<var> isEqual <== x <=> y
-<var> isNotEqual <== x <!=> y
-<var> isGreater <== x <>> y
-<var> isLesser <== x <<> y
-<var> isGreaterOrEqual <== x <>=> y
-<var> isLesserOrEqual <== x <<=> y
-
-::> Logical Operators Tests <::
-
-<var> logical1 <== isEqual <&&> isNotEqual
-<var> logical2 <== isEqual <||> isNotEqual
-<var> logical3 <== <!!> isEqual
-
-::> String Operations Tests <::
-
-<var> add_string <== "Hello" <+> " World" :: Addition with string
-<var> add_string_num <== "One" <+> 2 :: This will convert the number to a string
+<const int> myVar <- 4

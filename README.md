@@ -2,7 +2,7 @@
 [Setup](#setup) | [Syntax Reference](#syntax-reference)
 
 > [!WARNING]  
-> Arrow-Lang is not and will never be production ready, this is a case-study only!
+> Arrow-Lang is not and will never be production ready! We are currently re-writing the syntax and the interpreter!
 
 <img src="assets/arrow_logo.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_full.png" alt="Arrow-Logo" width="200" height="200"> <img src="assets/arrow_bw.png" alt="Arrow-Logo" width="200" height="200">
 
@@ -20,11 +20,11 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 
 | Feature                  | Description                                           | Status           |
 |--------------------------|-------------------------------------------------------|------------------|
-| Variable Declaration     | Declares and assigns values to variables.             | ✅ Implemented   |
+| Variable Declaration     | Declares and assigns values to variables.             | 🟨 Semi-Working   |
 | Type-Checked Assignment  | Assigns values with enforced type checks.             | 🔲 Not Implemented   |
-| Basic Operators          | Supports addition, subtraction, multiplication, and division. | ✅ Implemented   |
-| Logical Operators        | And, Or, Not operators for conditional logic.         | ✅ Implemented - Needs Improvements |
-| Comparation Operators    | Equals, is bigger then, is smaller then for comparation logic. | ✅ Implemented - Needs Improvements |
+| Basic Operators          | Supports addition, subtraction, multiplication, and division. | 🔲 Not Implemented   |
+| Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
+| Comparation Operators    | Equals, is bigger then, is smaller then for comparation logic. | 🔲 Not Implemented |
 | Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
@@ -78,88 +78,79 @@ This will execute the Arrow code in the `test/default.arrow` file and output deb
 
 # Syntax Reference
 
-## 1. Variable Declaration and Assignment
+## 1. Assignment
 
 ### Basic Assignment:
 ```arrow
-<var> variableName <== value
+<type> variableName <- value
 ```
-
-### Type-Checked Assignment:
-```arrow
-<var> variableName <: type :> <== value
-```
-
-(Throws an error if `value` doesn’t match `type`)
 
 Examples:
 ```arrow
-<var> count <== 42
-<var> message <: string :> <== "Hello Arrow"
+<str> message <- "Hello Arrow"
 ```
 
 ## 2. Function Definition and Invocation
 
 ### Function Definition:
 ```arrow
-==> functionName(<const> arg1 <: type1 :>, <var> arg2 <: type2 :>) <: returnType :> {
+<bool fn> functionName(<const int> arg1, <const float> arg2 ) {
     // function body
-    --> returnValue
+    -> returnValue
 }
 ```
 
-- `==>`: Denotes the start of a function definition.
-- `<: returnType :>`: Optional type annotation for the return value.
-- `-->`: Return keyword, followed by value.
+- `<bool fn>`: Denotes the start of a function and its return type.
+- `->`: Return keyword, followed by value.
 
 ### Function Invocation:
 ```arrow
-functionName >> (arg1, arg2, ...)
+functionName(arg1, arg2, ...)
 ```
 
 Examples:
 ```arrow
-==> greetUser(<var> name <: string :>) <: string :> {
-    --> "Hello, " <+> name
+<str fn> greetUser(<const str> name) {
+    -> "Hello, " + name
 }
 
-message <== greetUser >> ("ArrowUser")
+message <- greetUser("ArrowUser")
 ```
 
 ## 3. Operators and Expressions
 
 ### Arithmetic Operators:
 
-- Addition: `x <+> y`
-- Subtraction: `x <-> y`
-- Multiplication: `x <*> y`
-- Division: `x </> y`
+- Addition: `x + y`
+- Subtraction: `x - y`
+- Multiplication: `x * y`
+- Division: `x / y`
 
 ### Logical Operators:
 
-- And: `x <&&> y`
-- Or: `x <||> y`
-- Not: `<!!> x`
+- And: `x && y`
+- Or: `x || y`
+- Not: `!! x`
 
 ### Comparison Operators:
 
-- Equal to: `x <=> y`
-- Not equal to: `x <!=> y`
-- Greater than: `x <>> y`
-- Less than: `x <<> y`
-- Greater than or equal to: `x <>>= y`
-- Less than or equal to: `x <<>= y`
+- Equal to: `x == y`
+- Not equal to: `x != y`
+- Greater than: `x > y`
+- Less than: `x < y`
+- Greater than or equal to: `x >= y`
+- Less than or equal to: `x <= y`
 
 Examples:
 ```arrow
-<var> result <== x <+> y
-<var> isActive <== flag <&&> condition
-<var> isEqual <== x <=> y
-<var> isNotEqual <== x <!=> y
-<var> isGreater <== x <>> y
-<var> isLesser <== x <<> y
-<var> isGreaterOrEqual <== x <>=> y
-<var> isLesserOrEqual <== x <<=> y
+<var> result <- x + y
+<var> isActive <- flag && condition
+<var> isEqual <- x == y
+<var> isNotEqual <- x != y
+<var> isGreater <- x > y
+<var> isLesser <- x < y
+<var> isGreaterOrEqual <- x >= y
+<var> isLesserOrEqual <- x <= y
 ```
 
 ## 4. Control Flow Statements
@@ -167,9 +158,11 @@ Examples:
 ### If-Else Conditionals:
 
 ```arrow
-?? -> (condition) {
+if -> condition {
     // if block
-} ?? else {
+} elif -> condition {
+    // else block
+} else {
     // else block
 }
 ```
@@ -177,7 +170,7 @@ Examples:
 ### While Loop:
 
 ```arrow
-@@ -> (condition) {
+while -> condition {
     // loop body
 }
 ```
@@ -185,7 +178,7 @@ Examples:
 ### For Loop:
 
 ```arrow
-@@ for (init ; condition ; increment) {
+for -> init ; condition ; increment {
     // loop body
 }
 ```
@@ -193,15 +186,15 @@ Examples:
 Examples:
 
 ```arrow
-?? -> (score >= 50) {
-    result <== "Pass"
-} ?? else {
-    result <== "Fail"
+if -> score >= 50 {
+    result <- "Pass"
+} else {
+    result <- "Fail"
 }
 
 i <== 0
-@@ -> (i < 5) {
-    i <== i <+> 1
+while -> i < 5 {
+    i <- i + 1
 }
 ```
 
@@ -210,34 +203,34 @@ i <== 0
 ### Array Declaration:
 
 ```arrow
-<var> arrayName <== [item1, item2, ...]
+<any> arrayName <- [item1, item2, ...]
 ```
 
 ### Access Array Elements:
 
 ```arrow
-<var> item <== arrayName[index]
+<any> item <- arrayName[index]
 ```
 
 ### Object Declaration:
 
 ```arrow
-<var> objectName <== { key1: value1, key2: value2, ... }
+<obj> objectName <- { key1: value1, key2: value2, ... }
 ```
 
 ### Access Object Properties:
 
 ```arrow
-<var> propertyValue <== objectName.key
+<any> propertyValue <- objectName.key
 ```
 
 Examples:
 ```arrow
-<var> items <== [10, 20, 30]
-<var> firstItem <== items[0]
+<int> items <== [10, 20, 30]
+<int> firstItem <== items[0]
 
-<var> settings <== { volume: 75, theme: "dark" }
-<var> currentTheme <== settings.theme
+<obj> settings <== { volume: 75, theme: "dark" }
+<str> currentTheme <== settings.theme
 ```
 
 ## 6. Built-In Functions
@@ -245,13 +238,13 @@ Examples:
 ### Print (Output to console):
 
 ```arrow
-print >> (message)
+print(message)
 ```
 
 ### Input (User input):
 
 ```arrow
-<var> inputValue <== input >> ("Prompt message")
+<str> inputValue <- input("Prompt message")
 ```
 
 - `print`: Outputs the provided message to the console or display.
@@ -260,8 +253,8 @@ print >> (message)
 Examples:
 
 ```arrow
-print >> ("Hello, Arrow!")
-<var> userName <== input >> ("Enter your name: ")
+print("Hello, Arrow!")
+<str> userName <- input("Enter your name: ")
 ```
 
 ## 7. Comments
@@ -285,29 +278,29 @@ comment <::
 
 ```arrow
 :: Declare variables
-<const> age <: int :> <== 25
-<const> name <: string :> <== "ArrowLang"
+<const int> age <- 25
+<const str> name <- "ArrowLang"
 
 :: Function definition with return type
-==> isValidAge(userAge <: int :>) <: bool :> {
-    ?? -> (userAge >= 18) {
-        --> true
-    } ?? else {
-        --> false
+<bool fn> isValidAge(<const int> userAge) {
+    if -> userAge >= 18 {
+        -> true
+    } else {
+        -> false
     }
 }
 
 :: Function call
-<const> canVote <== isValidAge >> (age)
+<const bool> canVote <- isValidAge(age)
 
 :: Using a loop with an array
-<const> values <== [10, 20, 30]
-<var> sum <== 0
+<const int> values <- [10, 20, 30]
+<var int> sum <- 0
 
-@@ for (i <== 0 ; i < values.length ; i <== i <+> 1) {
-    sum <== sum <+> values[i]
+for -> i <- 0 ; i < values.length ; i <- i + 1 {
+    sum <- sum + values[i]
 }
 
 :: Output the sum
-print >> ("Total Sum: " <+> sum)
+print("Total Sum: " + sum)
 ```

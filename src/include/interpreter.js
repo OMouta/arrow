@@ -1,78 +1,71 @@
 class Interpreter {
     constructor() {
-        this.environment = {}; // Store variable values
+        this.environment = {};
+        this.types = {
+            '<int>': value => Number.isInteger(value),
+            '<float>': value => typeof value === 'number' && !Number.isInteger(value),
+            '<str>': value => typeof value === 'string',
+            '<bool>': value => typeof value === 'boolean',
+            '<any>': () => true
+        };
+        this.constants = new Set();
     }
 
-    evaluate(ast) {
-        for (const node of ast) {
-            if (node.type === "Declaration") this.evalDeclaration(node);
-            if (node.type === "Assignment") this.evalAssignment(node);
+    evaluate(node) {
+        console.log('Evaluating node:', node);
+        switch (node.type) {
+            case 'Program':
+                return this.evaluateProgram(node);
+            case 'VariableDeclaration':
+                return this.evaluateVariableDeclaration(node);
+            case 'Assignment':
+                return this.evaluateAssignment(node);
+            default:
+                throw new Error('Unknown node type: ' + node.type);
         }
     }
 
-    evalDeclaration(node) {
-        const value = node.value ? this.evalExpression(node.value) : null;
-        this.environment[node.name] = { value, kind: node.kind, line: node.line, column: node.column };
+    evaluateProgram(node) {
+        node.body.forEach(statement => this.evaluate(statement));
     }
 
-    evalAssignment(node) {
-        const value = this.evalExpression(node.value);
-        if (this.environment[node.name] && this.environment[node.name].kind === "const") {
-            throw new Error(`Cannot reassign constant variable: ${node.name} at line ${node.line}, column ${node.column}`);
+    evaluateVariableDeclaration(node) {
+        const name = node.id.name;
+        const value = node.init.value;
+        const type = node.kind;
+
+        const isConst = type.startsWith('<const');
+        const baseType = isConst ? type.replace('<const ', '<') : type;
+
+        if (!this.types[baseType]) {
+            throw new Error(`Unknown type: ${type}`);
         }
-        this.environment[node.name] = { value, kind: "var", line: node.line, column: node.column };
-    }
 
-    evalExpression(node) {
-        if (node.type === "Literal") return this.evalLiteral(node);
-        if (node.type === "BinaryExpression") return this.evalBinaryExpression(node);
-        if (node.type === "UnaryExpression") return this.evalUnaryExpression(node);
-        if (node.type === "Variable") return this.evalVariable(node);
-        return null;
-    }
-
-    evalUnaryExpression(node) {
-        const right = this.evalExpression(node.right);
-        switch (node.operator) {
-            case '<!!>': return !right;
-            default: throw new Error(`Unknown operator: ${node.operator} at line ${node.line}, column ${node.column}`);
+        if (!this.types[baseType](value)) {
+            throw new Error(`Type error: Expected ${baseType} but got ${typeof value}`);
         }
-    }
 
-    evalVariable(node) {
-        if (!this.environment[node.name]) {
-            throw new Error(`Undefined variable: ${node.name} at line ${node.line}, column ${node.column}`);
+        this.environment[name] = value;
+        if (isConst) {
+            this.constants.add(name);
         }
-        return this.environment[node.name].value;
+        console.log('Environment updated:', this.environment);
     }
 
-    evalLiteral(node) {
-        return node.value;
-    }
+    evaluateAssignment(node) {
+        const name = node.id.name;
+        const value = node.value.value;
 
-    evalBinaryExpression(node) {
-        const left = node.operator === "<!!>" ? null : this.evalExpression(node.left);
-        const right = this.evalExpression(node.right);
-        switch (node.operator) {
-            case '+': return left + right;
-            case '-': return left - right;
-            case '*': return left * right;
-            case '/': return left / right;
-            case '<+>': return left + right;
-            case '<->': return left - right;
-            case '<*>': return left * right;
-            case '</>': return left / right;
-            case '<&&>': return left && right;
-            case '<||>': return left || right;
-            case '<!!>': return !right;
-            case '<=>': return left === right;
-            case '<!=>': return left !== right;
-            case '<>>': return left > right;
-            case '<<>': return left < right;
-            case '<>=>': return left >= right;
-            case '<<=>': return left <= right;
-            default: throw new Error(`Unknown operator: ${node.operator} at line ${node.line}, column ${node.column}`);
+        if (!(name in this.environment)) {
+            throw new Error(`Undefined variable: ${name}`);
         }
+
+        if (this.constants.has(name)) {
+            throw new Error(`Cannot reassign constant variable: ${name}`);
+        }
+
+        this.environment[name] = value;
+        console.log('Environment updated:', this.environment);
     }
 }
 

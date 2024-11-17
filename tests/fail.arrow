@@ -1,6 +1,2 @@
-<var> myVar1 <== 5
-<const> myVar2 <== 10
-
-<var> total <== myVar1 <+> myVar2
-
-myVar2 <== 4 :: ofc it fails, this is a const
+<const str> myVar1 <- "Hello World"
+myVar1 <- 2

@@ -5,107 +5,122 @@ class Parser {
     }
 
     parse() {
-        const ast = [];
-        while (!this.isAtEnd()) {
-            const node = this.parseStatement();
-            if (node) ast.push(node);
+        console.log('Starting parsing...');
+        const ast = {
+            type: 'Program',
+            body: []
+        };
+
+        while (this.position < this.tokens.length) {
+            const statement = this.parseStatement();
+            if (statement) {
+                ast.body.push(statement);
+            }
         }
+
+        console.log('Parsing complete:', ast);
         return ast;
     }
 
     parseStatement() {
-        const token = this.peek();
-        if (token && token.type === "COMMENT") {
-            this.advance(); // Skip comments
+        const token = this.tokens[this.position];
+
+        if (token.type === 'VARIABLE_DECLARATION') {
+            return this.parseVariableDeclaration();
+        }
+
+        if (token.type === 'COMMENT') {
+            this.position++;
             return null;
         }
-        if (token && token.type === "KEYWORD") return this.parseDeclaration();
-        if (token && token.type === "IDENTIFIER") return this.parseAssignment();
-        this.advance();
-        return null;
+
+        if (token.type === 'IDENTIFIER') {
+            const nextToken = this.tokens[this.position + 1];
+            if (nextToken && nextToken.type === 'ASSIGNMENT') {
+                return this.parseAssignment();
+            }
+        }
+
+        throw new Error('Unexpected token: ' + token.type);
     }
 
-    parseDeclaration() {
-        const keyword = this.advance(); // <var> or <const>
-        const identifier = this.expect("IDENTIFIER"); // variable name
-        let value = null;
-        if (this.match("OPERATOR") && this.previous().value === "<==") {
-            value = this.parseExpression();
+    parseVariableDeclaration() {
+        const token = this.tokens[this.position];
+        this.position++;
+
+        const identifierToken = this.tokens[this.position];
+        if (identifierToken.type !== 'IDENTIFIER') {
+            throw new Error('Expected identifier, got: ' + identifierToken.type);
         }
-        return { type: "Declaration", kind: keyword.value, name: identifier.value, value, line: keyword.line, column: keyword.column };
+        this.position++;
+
+        const assignmentToken = this.tokens[this.position];
+        if (assignmentToken.type !== 'ASSIGNMENT') {
+            throw new Error('Expected assignment, got: ' + assignmentToken.type);
+        }
+        this.position++;
+
+        const valueToken = this.tokens[this.position];
+        let value;
+        if (valueToken.type === 'NUMBER') {
+            value = Number(valueToken.value);
+        } else if (valueToken.type === 'STRING') {
+            value = valueToken.value.slice(1, -1); // Remove quotes
+        } else {
+            throw new Error('Expected value, got: ' + valueToken.type);
+        }
+        this.position++;
+
+        return {
+            type: 'VariableDeclaration',
+            kind: token.value,
+            id: {
+                type: 'Identifier',
+                name: identifierToken.value
+            },
+            init: {
+                type: valueToken.type === 'NUMBER' ? 'NumericLiteral' : 'StringLiteral',
+                value: value
+            }
+        };
     }
 
     parseAssignment() {
-        const identifier = this.advance(); // var name
-        this.expect("OPERATOR", "<=="); // assignment operator
-        const value = this.parseExpression();
-        return { type: "Assignment", name: identifier.value, value, line: identifier.line, column: identifier.column };
-    }
-
-    parseExpression() {
-        if (this.match("OPERATOR") && this.previous().value === "<!!>") {
-            const operator = this.previous();
-            const right = this.parsePrimary();
-            return { type: "UnaryExpression", operator: operator.value, right, line: operator.line, column: operator.column };
+        const identifierToken = this.tokens[this.position];
+        if (identifierToken.type === 'IDENTIFIER') {
+            this.position++;
+        } else {
+            throw new Error('Expected identifier, got: ' + identifierToken.type);
         }
-        let left = this.parsePrimary();
-        while (this.match("OPERATOR")) {
-            const operator = this.previous();
-            const right = this.parsePrimary();
-            left = { type: "BinaryExpression", operator: operator.value, left, right, line: operator.line, column: operator.column };
+
+        const assignmentToken = this.tokens[this.position];
+        if (assignmentToken.type !== 'ASSIGNMENT') {
+            throw new Error('Expected assignment, got: ' + assignmentToken.type);
         }
-        return left;
-    }
+        this.position++;
 
-    parsePrimary() {
-        const token = this.peek();
-        if (token.type === "NUMBER") return this.literal("NUMBER");
-        if (token.type === "STRING") return this.literal("STRING");
-        if (token.type === "IDENTIFIER") return this.variable();
-        return null;
-    }
-
-    variable() {
-        const token = this.advance();
-        return { type: "Variable", name: token.value, line: token.line, column: token.column };
-    }
-
-    literal(type) {
-        const token = this.expect(type);
-        return { type: "Literal", value: token.value, line: token.line, column: token.column };
-    }
-
-    expect(type, value = null) {
-        const token = this.advance();
-        if (!token || token.type !== type || (value && token.value !== value)) {
-            throw new Error(`Expected ${value || type}, got ${token ? token.value : "EOF"} at line ${token.line}, column ${token.column}`);
+        const valueToken = this.tokens[this.position];
+        let value;
+        if (valueToken.type === 'NUMBER') {
+            value = Number(valueToken.value);
+        } else if (valueToken.type === 'STRING') {
+            value = valueToken.value.slice(1, -1); // Remove quotes
+        } else {
+            throw new Error('Expected value, got: ' + valueToken.type);
         }
-        return token;
-    }
+        this.position++;
 
-    match(type) {
-        const token = this.peek();
-        if (token && token.type === type) {
-            this.advance();
-            return true;
-        }
-        return false;
-    }
-
-    previous() {
-        return this.tokens[this.position - 1];
-    }
-
-    peek() {
-        return this.tokens[this.position];
-    }
-
-    advance() {
-        return this.tokens[this.position++];
-    }
-
-    isAtEnd() {
-        return this.position >= this.tokens.length;
+        return {
+            type: 'Assignment',
+            id: {
+                type: 'Identifier',
+                name: identifierToken.value
+            },
+            value: {
+                type: valueToken.type === 'NUMBER' ? 'NumericLiteral' : 'StringLiteral',
+                value: value
+            }
+        };
     }
 }
 
