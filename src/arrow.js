@@ -253,7 +253,7 @@ import Interpreter from './include/interpreter.js';
 
 try {
     // Step 1: Tokenize
-    const tokenizer = new Tokenizer(code);
+    const tokenizer = new Tokenizer(code, debug);
     const tokens = tokenizer.tokenize();
 
     if (debug) {
@@ -262,7 +262,7 @@ try {
     }
 
     // Step 2: Parse
-    const parser = new Parser(tokens);
+    const parser = new Parser(tokens, debug);
     const ast = parser.parse();
 
     if (debug) {
@@ -271,7 +271,7 @@ try {
     }
 
     // Step 3: Evaluate
-    const interpreter = new Interpreter();
+    const interpreter = new Interpreter(debug);
     interpreter.evaluate(ast);
 
     const endTime = Date.now();

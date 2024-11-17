@@ -1,5 +1,5 @@
 class Interpreter {
-    constructor() {
+    constructor(debug = false) {
         this.environment = {};
         this.types = {
             '<int>': value => Number.isInteger(value),
@@ -9,10 +9,11 @@ class Interpreter {
             '<any>': () => true
         };
         this.constants = new Set();
+        this.debug = debug;
     }
 
     evaluate(node) {
-        console.log('Evaluating node:', node);
+        if (this.debug) console.log('Evaluating node:', node);
         switch (node.type) {
             case 'Program':
                 return this.evaluateProgram(node);
@@ -49,7 +50,7 @@ class Interpreter {
         if (isConst) {
             this.constants.add(name);
         }
-        console.log('Environment updated:', this.environment);
+        if (this.debug) console.log('Environment updated:', this.environment);
     }
 
     evaluateAssignment(node) {
@@ -65,7 +66,7 @@ class Interpreter {
         }
 
         this.environment[name] = value;
-        console.log('Environment updated:', this.environment);
+        if (this.debug) console.log('Environment updated:', this.environment);
     }
 }
 

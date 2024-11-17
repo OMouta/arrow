@@ -1,11 +1,12 @@
 class Parser {
-    constructor(tokens) {
+    constructor(tokens, debug = false) {
         this.tokens = tokens;
         this.position = 0;
+        this.debug = debug;
     }
 
     parse() {
-        console.log('Starting parsing...');
+        if (this.debug) console.log('Starting parsing...');
         const ast = {
             type: 'Program',
             body: []
@@ -18,7 +19,7 @@ class Parser {
             }
         }
 
-        console.log('Parsing complete:', ast);
+        if (this.debug) console.log('Parsing complete:', ast);
         return ast;
     }
 

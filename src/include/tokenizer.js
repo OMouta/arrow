@@ -1,15 +1,16 @@
 class Tokenizer {
-    constructor(code) {
+    constructor(code, debug = false) {
         this.code = code;
         this.position = 0;
         this.tokens = [];
+        this.debug = debug;
     }
 
     tokenize() {
-        console.log('Starting tokenization...');
+        if (this.debug) console.log('Starting tokenization...');
         while (this.position < this.code.length) {
             const char = this.code[this.position];
-            console.log(`Current char: '${char}' at position ${this.position}`);
+            if (this.debug) console.log(`Current char: '${char}' at position ${this.position}`);
 
             if (/\s/.test(char)) {
                 this.position++;
@@ -32,7 +33,7 @@ class Tokenizer {
                 this.tokenizeIdentifier();
             }
         }
-        console.log('Tokenization complete:', this.tokens);
+        if (this.debug) console.log('Tokenization complete:', this.tokens);
         return this.tokens;
     }
 
@@ -44,14 +45,14 @@ class Tokenizer {
         this.position++;
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'VARIABLE_DECLARATION', value });
-        console.log(`Tokenized variable declaration: ${value}`);
+        if (this.debug) console.log(`Tokenized variable declaration: ${value}`);
     }
 
     tokenizeAssignment() {
         if (this.code[this.position + 1] === '-') {
             this.tokens.push({ type: 'ASSIGNMENT' });
             this.position += 2;
-            console.log('Tokenized assignment');
+            if (this.debug) console.log('Tokenized assignment');
         } else {
             throw new Error('Unexpected token: ' + this.code[this.position]);
         }
@@ -64,7 +65,7 @@ class Tokenizer {
         }
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'IDENTIFIER', value });
-        console.log(`Tokenized identifier: ${value}`);
+        if (this.debug) console.log(`Tokenized identifier: ${value}`);
     }
 
     tokenizeNumber() {
@@ -74,7 +75,7 @@ class Tokenizer {
         }
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'NUMBER', value });
-        console.log(`Tokenized number: ${value}`);
+        if (this.debug) console.log(`Tokenized number: ${value}`);
     }
 
     tokenizeString() {
@@ -86,7 +87,7 @@ class Tokenizer {
         this.position++; // Skip the closing quote
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'STRING', value });
-        console.log(`Tokenized string: ${value}`);
+        if (this.debug) console.log(`Tokenized string: ${value}`);
     }
 
     tokenizeComment() {
@@ -104,7 +105,7 @@ class Tokenizer {
         }
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'COMMENT', value });
-        console.log(`Tokenized single-line comment: ${value}`);
+        if (this.debug) console.log(`Tokenized single-line comment: ${value}`);
     }
 
     tokenizeMultiLineComment() {
@@ -116,7 +117,7 @@ class Tokenizer {
         this.position += 3; // Skip "<::"
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'COMMENT', value });
-        console.log(`Tokenized multi-line comment: ${value}`);
+        if (this.debug) console.log(`Tokenized multi-line comment: ${value}`);
     }
 }
 

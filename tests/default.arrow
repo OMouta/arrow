@@ -1,3 +1,4 @@
 ::> Variable Declarations Tests <::
 
 <const int> myVar <- 4
+<any> myVar2 <- "string"
