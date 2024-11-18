@@ -66,14 +66,14 @@ message <- greetUser("ArrowUser")
 
 Examples:
 ```arrow
-<var> result <- x + y
-<var> isActive <- flag && condition
-<var> isEqual <- x == y
-<var> isNotEqual <- x != y
-<var> isGreater <- x > y
-<var> isLesser <- x < y
-<var> isGreaterOrEqual <- x >= y
-<var> isLesserOrEqual <- x <= y
+<int> result <- x + y
+<bool> isActive <- flag && condition
+<bool> isEqual <- x == y
+<bool> isNotEqual <- x != y
+<bool> isGreater <- x > y
+<bool> isLesser <- x < y
+<bool> isGreaterOrEqual <- x >= y
+<bool> isLesserOrEqual <- x <= y
 ```
 
 ## 4. Control Flow Statements
@@ -149,11 +149,11 @@ while -> i < 5 {
 
 Examples:
 ```arrow
-<int> items <== [10, 20, 30]
-<int> firstItem <== items[0]
+<int> items <- [10, 20, 30]
+<int> firstItem <- items[0]
 
-<obj> settings <== { volume: 75, theme: "dark" }
-<str> currentTheme <== settings.theme
+<obj> settings <- { volume: 75, theme: "dark" }
+<str> currentTheme <- settings.theme
 ```
 
 ## 6. Built-In Functions
