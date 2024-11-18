@@ -24,7 +24,7 @@ Arrow aims to create an intuitive programming experience focused on simplicity a
 | Basic Operators          | Supports addition, subtraction, multiplication, and division. | 🔲 Not Implemented   |
 | Logical Operators        | And, Or, Not operators for conditional logic.         | 🔲 Not Implemented |
 | Comparation Operators    | Equals, is bigger then, is smaller then for comparation logic. | 🔲 Not Implemented |
-| Function Definition      | Defines functions with arguments and optional return types. | 🔲 Not Implemented   |
+| Function Definition      | Defines functions with arguments and optional return types. | 🟨 Semi-Working   |
 | Function Invocation      | Calls functions with arguments.                       | 🔲 Not Implemented   |
 | If-Else Conditionals     | Branches code based on conditions.                    | 🔲 Not Implemented   |
 | While Loop               | Executes code while a condition is true.              | 🔲 Not Implemented |

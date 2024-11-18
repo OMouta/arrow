@@ -1,4 +1,6 @@
-::> Variable Declarations Tests <::
+<fn null> main() {
+    ::> Variable Declarations Tests <::
 
-<const int> myVar <- 4
-<any> myVar2 <- "string"
+    <const int> myVar <- 4
+    <any> myVar2 <- "string"
+}

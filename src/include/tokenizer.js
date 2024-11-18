@@ -17,6 +17,8 @@ class Tokenizer {
             } else if (char === '<') {
                 if (this.code[this.position + 1] === '-') {
                     this.tokenizeAssignment();
+                } else if (this.isFunctionDefinition()) {
+                    this.tokenizeFunctionDefinition();
                 } else {
                     this.tokenizeVariableDeclaration();
                 }
@@ -29,12 +31,31 @@ class Tokenizer {
                 this.tokenizeNumber();
             } else if (char === '"') {
                 this.tokenizeString();
+            } else if (char === '(') {
+                this.tokens.push({ type: 'PAREN_OPEN' });
+                this.position++;
+            } else if (char === ')') {
+                this.tokens.push({ type: 'PAREN_CLOSE' });
+                this.position++;
+            } else if (char === '{') {
+                this.tokens.push({ type: 'BRACE_OPEN' });
+                this.position++;
+            } else if (char === '}') {
+                this.tokens.push({ type: 'BRACE_CLOSE' });
+                this.position++;
+            } else if (char === '-' && this.code[this.position + 1] === '>') {
+                this.tokens.push({ type: 'RETURN_ARROW' });
+                this.position += 2;
             } else {
                 this.tokenizeIdentifier();
             }
         }
         if (this.debug) console.log('Tokenization complete:', this.tokens);
         return this.tokens;
+    }
+
+    isFunctionDefinition() {
+        return this.code.startsWith('<fn', this.position);
     }
 
     tokenizeVariableDeclaration() {
@@ -118,6 +139,17 @@ class Tokenizer {
         const value = this.code.slice(start, this.position);
         this.tokens.push({ type: 'COMMENT', value });
         if (this.debug) console.log(`Tokenized multi-line comment: ${value}`);
+    }
+
+    tokenizeFunctionDefinition() {
+        const start = this.position;
+        while (this.code[this.position] !== '>') {
+            this.position++;
+        }
+        this.position++;
+        const value = this.code.slice(start, this.position);
+        this.tokens.push({ type: 'FUNCTION_DEFINITION', value });
+        if (this.debug) console.log(`Tokenized function definition: ${value}`);
     }
 }
 
