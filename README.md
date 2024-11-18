@@ -93,13 +93,13 @@ Examples:
 
 ### Function Definition:
 ```arrow
-<bool fn> functionName(<const int> arg1, <const float> arg2 ) {
+<fn bool> functionName(<const int> arg1, <const float> arg2 ) {
     // function body
     -> returnValue
 }
 ```
 
-- `<bool fn>`: Denotes the start of a function and its return type.
+- `<fn bool>`: Denotes the start of a function and its return type.
 - `->`: Return keyword, followed by value.
 
 ### Function Invocation:
@@ -109,7 +109,7 @@ functionName(arg1, arg2, ...)
 
 Examples:
 ```arrow
-<str fn> greetUser(<const str> name) {
+<fn str> greetUser(<const str> name) {
     -> "Hello, " + name
 }
 
@@ -281,7 +281,7 @@ comment <::
 <const str> name <- "ArrowLang"
 
 :: Function definition with return type
-<bool fn> isValidAge(<const int> userAge) {
+<fn bool> isValidAge(<const int> userAge) {
     if -> userAge >= 18 {
         -> true
     } else {
@@ -289,17 +289,19 @@ comment <::
     }
 }
 
-:: Function call
-<const bool> canVote <- isValidAge(age)
+<fn null> main() {
+    :: Function call
+    <const bool> canVote <- isValidAge(age)
 
-:: Using a loop with an array
-<const int> values <- [10, 20, 30]
-<var int> sum <- 0
+    :: Using a loop with an array
+    <const int> values <- [10, 20, 30]
+    <var int> sum <- 0
 
-for -> i <- 0 ; i < values.length ; i <- i + 1 {
-    sum <- sum + values[i]
+    for -> i <- 0 ; i < values.length ; i <- i + 1 {
+        sum <- sum + values[i]
+    }
+
+    :: Output the sum
+    print("Total Sum: " + sum)
 }
-
-:: Output the sum
-print("Total Sum: " + sum)
 ```
